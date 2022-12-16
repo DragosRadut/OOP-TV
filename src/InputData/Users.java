@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 public class Users {
     private Credentials credentials;
-    private int tokensCount;
-    private int numFreePremiumMovies;
-    private ArrayList<Movies> purchasedMovies;
-    private ArrayList<Movies> watchedMovies;
-    private ArrayList<Movies> likedMovies;
-    private ArrayList<Movies> ratedMovies;
+    private int tokensCount = 0;
+    private int numFreePremiumMovies = 15;
+    private ArrayList<Movies> purchasedMovies = new ArrayList<Movies>();
+    private ArrayList<Movies> watchedMovies = new ArrayList<Movies>();
+    private ArrayList<Movies> likedMovies = new ArrayList<Movies>();
+    private ArrayList<Movies> ratedMovies = new ArrayList<Movies>();
 
     public Credentials getCredentials() {
         return credentials;

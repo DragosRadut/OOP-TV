@@ -6,6 +6,9 @@ public class Movies {
     private String name;
     private int year;
     private int duration;
+    private int numLikes = 0;
+    private float rating = 0.00F;
+    private int numRatings = 0;
     private ArrayList<String> actors;
     private ArrayList<String> genres;
     private ArrayList<String> countriesBanned;
@@ -52,6 +55,30 @@ public class Movies {
 
     public ArrayList<String> getCountriesBanned() {
         return countriesBanned;
+    }
+
+    public int getNumLikes() {
+        return numLikes;
+    }
+
+    public void setNumLikes(int numLikes) {
+        this.numLikes = numLikes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getNumRatings() {
+        return numRatings;
+    }
+
+    public void setNumRatings(int numRatings) {
+        this.numRatings = numRatings;
     }
 
     public void setCountriesBanned(final ArrayList<String> countriesBanned) {

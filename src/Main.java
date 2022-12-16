@@ -14,8 +14,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        final String filePath1 = "/home/waze/Desktop/poo/POOTV1/POO-TV_1/checker/resources/in/basic_1.json";
-        final String filePath2 = "output.json";
+        final String filePath1 = args[0];//"/home/waze/Desktop/poo/POOTV1/POO-TV_1/checker/resources/in/in.json";
+        final String filePath2 = args[1];//"output.json";
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData;
         try {
@@ -44,21 +44,24 @@ public class Main {
         Interpreter interpret = new Interpreter();
         interpret.setCurrentPage("logout");
         interpret.setCurrentUser(null);
-        String[] actionOutputCases = new String[] {"registerUser", "loginUser"};
+        interpret.setCurrentMovies(null);
+        String[] actionOutputCases = new String[] {"registerUser", "loginUser", "showMovies"};
         // iterate through actions and execute
         int cnt = 0;
         for(Actions act : actions) {
+            // send input to interpreter
             String execResponse = interpret.exec(act, allUsers, existingMovies);
-            System.out.println(execResponse);
+            //System.out.println(execResponse);
             if (execResponse.equals("err")) {
-                outAux = out.generate("Error", null, interpret.getCurrentUser());
+                outAux = out.generateError("Error");
                 output.addPOJO(outAux);
             }
             else if (Arrays.asList(actionOutputCases).contains(execResponse)){
-                outAux = out.generate("null", null, interpret.getCurrentUser());
+                outAux = out.generateOutput(null, interpret.getCurrentMovies(), interpret.getCurrentUser());
                 output.addPOJO(outAux);
             }
-//            if(++cnt == 1)
+            //System.out.println(interpret.getCurrentPage());
+//            if(++cnt == 3)
 //                break;
         }
 
