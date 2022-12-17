@@ -9,6 +9,15 @@ public class Actions {
     private String startsWith;
     private Filters filters;
     private String count;
+    private int rate;
+
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
 
     public String getCount() {
         return count;

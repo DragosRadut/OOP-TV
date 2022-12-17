@@ -24,7 +24,7 @@ public class AuthPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies) {
+    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
         PageResponse resp = new PageResponse();
         resp.setResponse("err");
         return resp;

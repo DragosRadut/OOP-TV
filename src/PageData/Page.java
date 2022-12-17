@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 public interface Page {
     public String changePage(final String whereTo);
-    public PageResponse action(final Actions action, ArrayList<Users> users, ArrayList<Movies> movies);
+    public PageResponse action(final Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser);
 }

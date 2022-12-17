@@ -26,17 +26,17 @@ public class UpgradesPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies) {
+    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
         PageResponse resp = new PageResponse();
         resp.setResponse("err");
 
         if (action.getFeature().equals("buy tokens")) {
-            Users currentUser = users.get(0);
             int nrCount = Integer.parseInt(action.getCount());
             if (Integer.parseInt(currentUser.getCredentials().getBalance()) < nrCount)
                 return resp;
-            Credentials newCreds = currentUser.getCredentials();
+            Credentials newCreds = copyCredentials(currentUser);
             newCreds.setBalance(String.valueOf((Integer.parseInt(newCreds.getBalance()) - nrCount)));
+            currentUser.setCredentials(newCreds);
             currentUser.setTokensCount(currentUser.getTokensCount() + nrCount);
             resp.setUser(currentUser);
             resp.setResponse("updateUser");
@@ -44,11 +44,10 @@ public class UpgradesPage implements Page {
         }
 
         if (action.getFeature().equals("buy premium account")) {
-            Users currentUser = users.get(0);
             if (currentUser.getTokensCount() < 10 || currentUser.getCredentials().getAccountType().equals("premium"))
                 return resp;
             currentUser.setTokensCount(currentUser.getTokensCount() - 10);
-            Credentials newCreds = currentUser.getCredentials();
+            Credentials newCreds = copyCredentials(currentUser);
             newCreds.setAccountType("premium");
             currentUser.setCredentials(newCreds);
             resp.setUser(currentUser);
@@ -56,5 +55,15 @@ public class UpgradesPage implements Page {
             return resp;
         }
         return resp;
+    }
+
+    public Credentials copyCredentials(Users currentUser) {
+        Credentials newCreds = new Credentials();
+        newCreds.setBalance(currentUser.getCredentials().getBalance());
+        newCreds.setAccountType(currentUser.getCredentials().getAccountType());
+        newCreds.setName(currentUser.getCredentials().getName());
+        newCreds.setCountry(currentUser.getCredentials().getCountry());
+        newCreds.setPassword(currentUser.getCredentials().getPassword());
+        return newCreds;
     }
 }

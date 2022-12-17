@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        final String filePath1 = args[0];//"/home/waze/Desktop/poo/POOTV1/POO-TV_1/checker/resources/in/in.json";
+        final String filePath1 = args[0];//"/home/waze/Desktop/poo/POOTV1/POO-TV_1/checker/resources/in/basic_10.json";
         final String filePath2 = args[1];//"output.json";
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData;
@@ -60,9 +60,10 @@ public class Main {
                 outAux = out.generateOutput(null, interpret.getCurrentMovies(), interpret.getCurrentUser());
                 output.addPOJO(outAux);
             }
-            //System.out.println(interpret.getCurrentPage());
-//            if(++cnt == 3)
+//            if(++cnt == 8) {
+//                System.out.println(interpret.getCurrentPage());
 //                break;
+//            }
         }
 
 

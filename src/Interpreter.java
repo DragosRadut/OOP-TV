@@ -14,7 +14,7 @@ public class Interpreter {
         // determine current page type
         Page page = null;
         switch (currentPage) {
-            case "logout": // same as logout
+            case "logout":
                 page = NonAuthPage.getInstance();
                 break;
             case "login":
@@ -41,6 +41,8 @@ public class Interpreter {
         if (action.getType().equals("change page")) {
             String changePageResponse = page.changePage(action.getPage());
             if (changePageResponse.equals("err")) {
+                if(getCurrentPage().equals("login") || changePageResponse.equals("register"))
+                    setCurrentPage("logout");
                 return "err";
             }
             else { // useeffect for specific pages if needed
@@ -50,17 +52,18 @@ public class Interpreter {
                         setCurrentUser(null);
                         break;
                     case "movies":
-                        setLastSearched(null);
+                        //setLastSearched(null);
                         setCurrentMovies(availableMovies(moviesList, currentUser));
                         return "showMovies";
                     case "see details":
+                        setCurrentMovies(availableMovies(moviesList, currentUser));
                         int checkMovie = checkDetails(action, currentMovies);
                         ArrayList<Movies> seeDetails = new ArrayList<Movies>();
                         if (checkMovie == -1) {
-                            if (lastSearched != null) {
+                            if (action.getMovie().length() < 1 && lastSearched != null) {
                                 seeDetails.add(lastSearched);
                             } else {
-                                setCurrentMovies(null);
+                                setCurrentMovies(seeDetails);
                                 return "err";
                             }
                         } else {
@@ -77,13 +80,21 @@ public class Interpreter {
 
         // detect and execute action feature
         if (action.getType().equals("on page")) {
-            if (action.getFeature().equals("filter"))
-                setCurrentMovies(moviesList);
-            PageResponse actionResponse = page.action(action, users, currentMovies);
+            if (currentPage.equals("movies"))
+                setCurrentMovies(availableMovies(moviesList, currentUser));
+            if(currentPage.equals("see details")) {
+                if(currentMovies.size() < 1)
+                    return "err";
+                if (action.getMovie() == null) {
+                    action.setMovie(currentMovies.get(0).getName());
+                }
+            }
+            PageResponse actionResponse = page.action(action, users, currentMovies, currentUser);
 
             switch (actionResponse.getResponse()) {
                 case "loginUser":
                     setCurrentUser(actionResponse.getUser());
+                    setCurrentMovies(null);
                     setCurrentPage("auth");
                     break;
                 case "registerUser":
@@ -102,6 +113,10 @@ public class Interpreter {
                     break;
                 case "updateUser":
                     setCurrentUser(actionResponse.getUser());
+                    break;
+                case "updateUserMovies": // purchase / watch / like / rate
+                    setCurrentUser(actionResponse.getUser());
+                    actionResponse.setResponse("showMovies");
                     break;
                 default:
                     break;
@@ -153,17 +168,18 @@ public class Interpreter {
         ArrayList<Movies> available = new ArrayList<Movies>();
         for (Movies movie : existingMovies) {
             if (!movie.getCountriesBanned().contains(user.getCredentials().getCountry())) {
-                Movies aux = new Movies();
-                aux.setName(movie.getName());
-                aux.setActors(movie.getActors());
-                aux.setCountriesBanned(movie.getCountriesBanned());
-                aux.setDuration(movie.getDuration());
-                aux.setGenres(movie.getGenres());
-                aux.setNumLikes(movie.getNumLikes());
-                aux.setNumRatings(movie.getNumRatings());
-                aux.setRating(movie.getRating());
-                aux.setYear(movie.getYear());
-                available.add(aux);
+//                Movies aux = new Movies();
+//                aux.setName(movie.getName());
+//                aux.setActors(movie.getActors());
+//                aux.setCountriesBanned(movie.getCountriesBanned());
+//                aux.setDuration(movie.getDuration());
+//                aux.setGenres(movie.getGenres());
+//                aux.setNumLikes(movie.getNumLikes());
+//                aux.setNumRatings(movie.getNumRatings());
+//                aux.setRating(movie.getRating());
+//                aux.setYear(movie.getYear());
+//                available.add(aux);
+                available.add(movie);
             }
         }
         return available;
@@ -173,6 +189,7 @@ public class Interpreter {
         for (int i = 0; i < movies.size(); i++) {
             if (movies.get(i).getName().equals(action.getMovie())) {
                 detailIdx = i;
+                break;
             }
         }
         return detailIdx;

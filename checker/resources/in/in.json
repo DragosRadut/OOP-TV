@@ -149,23 +149,14 @@
       "page": "movies"
     },
     {
-      "type": "on page",
-      "feature": "search",
-      "startsWith": "an"
+      "type": "change page",
+      "page": "see details",
+      "movie": "AAA"
     },
     {
       "type": "change page",
       "page": "see details",
       "movie": "Titanic"
-    },
-    {
-      "type": "on page",
-      "feature": "purchase",
-      "movie": "Titanic"
-    },
-    {
-      "type": "change page",
-      "page": "movies"
     }
   ]
 }

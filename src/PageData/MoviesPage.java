@@ -28,14 +28,14 @@ public class MoviesPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies) {
+    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
         PageResponse resp = new PageResponse();
         if (action.getFeature().equals("search")) {
             resp.setResponse("setMovies");
 
             ArrayList<Movies> searched = new ArrayList<Movies>();
             for (Movies movie : movies) {
-                if (movie.getName().contains(action.getStartsWith())) {
+                if (movie.getName().startsWith(action.getStartsWith())) {
                     Movies aux = new Movies();
                     aux.setName(movie.getName());
                     aux.setActors(movie.getActors());
@@ -63,20 +63,24 @@ public class MoviesPage implements Page {
                     filtered.add(movie);
                     int hasActor = 1;
                     // contains actor
-                    for (String actor : cont.getActors()) {
-                        if (!movie.getActors().contains(actor)) {
-                            filtered.remove(movie);
-                            hasActor = 0;
-                            break;
+                    if (cont.getActors() != null) {
+                        for (String actor : cont.getActors()) {
+                            if (!movie.getActors().contains(actor)) {
+                                filtered.remove(movie);
+                                hasActor = 0;
+                                break;
+                            }
                         }
                     }
                     if (hasActor == 0)
                         continue;
                     // contains genre
-                    for (String genre : cont.getGenre()) {
-                        if (!movie.getGenres().contains(genre)) {
-                            filtered.remove(movie);
-                            break;
+                    if (cont.getGenre() != null) {
+                        for (String genre : cont.getGenre()) {
+                            if (!movie.getGenres().contains(genre)) {
+                                filtered.remove(movie);
+                                break;
+                            }
                         }
                     }
                 }
@@ -111,19 +115,31 @@ public class MoviesPage implements Page {
 
 class IncRateIncTime implements Comparator<Movies> {
     @Override
+//    public int compare(Movies o1, Movies o2) {
+//        if (o1.getRating() == o2.getRating())
+//            return o1.getDuration() - o2.getDuration();
+//        return ((int) o1.getRating()) - ((int) o2.getRating());
+//    }
     public int compare(Movies o1, Movies o2) {
-        if (o1.getRating() == o2.getRating())
-            return o1.getDuration() - o2.getDuration();
-        return ((int) o1.getRating()) - ((int) o2.getRating());
+        if (o1.getDuration() == o2.getDuration())
+            return ((int) o1.getRating()) - ((int) o2.getRating());
+        return o1.getDuration() - o2.getDuration();
+
     }
 }
 
 class DecRateIncTime implements Comparator<Movies> {
 
     @Override
+//    public int compare(Movies o1, Movies o2) {
+//        if (o1.getRating() == o2.getRating())
+//            return o1.getDuration() - o2.getDuration();
+//        return Integer.reverse((int) o1.getRating()) - ((int) o2.getRating());
+//    }
     public int compare(Movies o1, Movies o2) {
-        if (o1.getRating() == o2.getRating())
-            return o1.getDuration() - o2.getDuration();
-        return Integer.reverse((int) o1.getRating()) - ((int) o2.getRating());
+        if (o1.getDuration() == o2.getDuration())
+            return Integer.reverse((int) o1.getRating()) - ((int) o2.getRating());
+        return o1.getDuration() - o2.getDuration();
+
     }
 }
