@@ -18,3 +18,15 @@ Un obiect de tip Interpreter are rolul de intermediar intre input, actiunea prop
 Acest obiect va determina tipul paginii care trebuie folosite conform paginii curente pe care se afla utilizatorul.
 Odata determinat tipul paginii, va apela una dintre cele doua metode specifice: changePage/action.
 #### changePage
+Fiecare pagina determina daca are posibilitatea de a face trecerea la urmatoarea pagina.
+In caz afirmativ, se pot efectua anumite actiuni la "incarcarea" urmatoarei pagini.
+Altfel, se va returna "err" si se va interpreta eroara.
+### action
+Pe langa posibile erori ce vor genera output, se pot intoarce mesaje specifice pentru generare output.
+Astfel, fiecare obiect de tip Page va intoarce un string pentru a se realiza modificarile necesare:
+* loginUser -> se vor realiza actiunile specifice logarii
+* registerUser -> se vor realiza actiunile specifice inregistrarii unui nou user
+* errLogin -> user-ul va fi intors pe pagina initiala 
+* setMovies -> se modifica lista curenta de filme si se genereaza output
+* updateUser -> se modifica datele utilizatorului curent
+* updateUserMovies -> se modifica listele de filme ale utilizatorului
