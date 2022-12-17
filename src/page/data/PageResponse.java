@@ -1,11 +1,11 @@
-package PageData;
+package page.data;
 
-import InputData.Movies;
-import InputData.Users;
+import input.data.Movies;
+import input.data.Users;
 
 import java.util.ArrayList;
 
-public class PageResponse {
+public final class PageResponse {
     private String response;
     private Users user;
     private ArrayList<Movies> movies;
@@ -14,7 +14,7 @@ public class PageResponse {
         return response;
     }
 
-    public void setResponse(String response) {
+    public void setResponse(final String response) {
         this.response = response;
     }
 
@@ -30,7 +30,7 @@ public class PageResponse {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movies> movies) {
+    public void setMovies(final ArrayList<Movies> movies) {
         this.movies = movies;
     }
 }

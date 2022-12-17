@@ -1,23 +1,30 @@
-package PageData;
+package page.data;
 
-import InputData.Actions;
-import InputData.Contains;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Actions;
+import input.data.Contains;
+import input.data.Movies;
+import input.data.Users;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MoviesPage implements Page {
+public final class MoviesPage implements Page {
     private static MoviesPage instance = null;
+
+    /**
+     * Singleton
+     * @return instance
+     */
     public static MoviesPage getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new MoviesPage();
+        }
         return instance;
     }
-    private static String[] navRestrictions = new String[] {"logout", "see details", "auth", "movies"};
+    private static String[] navRestrictions = new String[] {"logout", "see details",
+            "auth", "movies"};
     @Override
     public String changePage(final String whereTo) {
         if (Arrays.asList(navRestrictions).contains(whereTo)) {
@@ -28,11 +35,11 @@ public class MoviesPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
+    public PageResponse action(final Actions action, final ArrayList<Users> users,
+                               final ArrayList<Movies> movies, final Users currentUser) {
         PageResponse resp = new PageResponse();
         if (action.getFeature().equals("search")) {
             resp.setResponse("setMovies");
-
             ArrayList<Movies> searched = new ArrayList<Movies>();
             for (Movies movie : movies) {
                 if (movie.getName().startsWith(action.getStartsWith())) {
@@ -72,8 +79,9 @@ public class MoviesPage implements Page {
                             }
                         }
                     }
-                    if (hasActor == 0)
+                    if (hasActor == 0) {
                         continue;
+                    }
                     // contains genre
                     if (cont.getGenre() != null) {
                         for (String genre : cont.getGenre()) {
@@ -85,8 +93,9 @@ public class MoviesPage implements Page {
                     }
                 }
             } else {
-                for (Movies movie : movies)
+                for (Movies movie : movies) {
                     filtered.add(movie);
+                }
             }
             if (action.getFilters().getSort() != null) {
                 // sort filtered list
@@ -115,31 +124,20 @@ public class MoviesPage implements Page {
 
 class IncRateIncTime implements Comparator<Movies> {
     @Override
-//    public int compare(Movies o1, Movies o2) {
-//        if (o1.getRating() == o2.getRating())
-//            return o1.getDuration() - o2.getDuration();
-//        return ((int) o1.getRating()) - ((int) o2.getRating());
-//    }
-    public int compare(Movies o1, Movies o2) {
-        if (o1.getDuration() == o2.getDuration())
+    public int compare(final Movies o1, final Movies o2) {
+        if (o1.getDuration() == o2.getDuration()) {
             return ((int) o1.getRating()) - ((int) o2.getRating());
+        }
         return o1.getDuration() - o2.getDuration();
-
     }
 }
 
 class DecRateIncTime implements Comparator<Movies> {
-
     @Override
-//    public int compare(Movies o1, Movies o2) {
-//        if (o1.getRating() == o2.getRating())
-//            return o1.getDuration() - o2.getDuration();
-//        return Integer.reverse((int) o1.getRating()) - ((int) o2.getRating());
-//    }
-    public int compare(Movies o1, Movies o2) {
-        if (o1.getDuration() == o2.getDuration())
+    public int compare(final Movies o1, final Movies o2) {
+        if (o1.getDuration() == o2.getDuration()) {
             return Integer.reverse((int) o1.getRating()) - ((int) o2.getRating());
+        }
         return o1.getDuration() - o2.getDuration();
-
     }
 }

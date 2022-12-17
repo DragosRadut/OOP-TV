@@ -1,20 +1,32 @@
-package PageData;
+package page.data;
 
-import InputData.Actions;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Actions;
+import input.data.Movies;
+import input.data.Users;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AuthPage implements Page {
+public final class AuthPage implements Page {
     private static AuthPage instance = null;
+
+    /**
+     * Singleton
+     * @return instance
+     */
     public static AuthPage getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AuthPage();
+        }
         return instance;
     }
     private static String[] navRestrictions = new String[] {"logout", "movies", "upgrades"};
+
+    /**
+     * change page
+     * @param whereTo = page
+     * @return response
+     */
     public String changePage(final String whereTo) {
         if (Arrays.asList(navRestrictions).contains(whereTo)) {
             return whereTo;
@@ -24,7 +36,8 @@ public class AuthPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
+    public PageResponse action(final Actions action, final ArrayList<Users> users,
+                               final ArrayList<Movies> movies, final Users currentUser) {
         PageResponse resp = new PageResponse();
         resp.setResponse("err");
         return resp;

@@ -1,8 +1,8 @@
-package InputData;
+package input.data;
 
 import java.util.ArrayList;
 
-public class Movies {
+public final class Movies {
     private String name;
     private int year;
     private int duration;
@@ -61,7 +61,7 @@ public class Movies {
         return numLikes;
     }
 
-    public void setNumLikes(int numLikes) {
+    public void setNumLikes(final int numLikes) {
         this.numLikes = numLikes;
     }
 
@@ -69,7 +69,7 @@ public class Movies {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(final float rating) {
         this.rating = rating;
     }
 
@@ -77,7 +77,7 @@ public class Movies {
         return numRatings;
     }
 
-    public void setNumRatings(int numRatings) {
+    public void setNumRatings(final int numRatings) {
         this.numRatings = numRatings;
     }
 

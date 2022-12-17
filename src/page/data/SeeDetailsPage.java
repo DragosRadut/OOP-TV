@@ -1,21 +1,27 @@
-package PageData;
+package page.data;
 
-import InputData.Actions;
-import InputData.Credentials;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Actions;
+import input.data.Movies;
+import input.data.Users;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SeeDetailsPage implements Page {
+public final class SeeDetailsPage implements Page {
     private static SeeDetailsPage instance = null;
+
+    /**
+     * Singleton
+     * @return instance
+     */
     public static SeeDetailsPage getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new SeeDetailsPage();
+        }
         return instance;
     }
-    private static String[] navRestrictions = new String[] {"logout", "auth", "movies", "upgrades", "see details"};
+    private static String[] navRestrictions = new String[] {"logout", "auth",
+            "movies", "upgrades", "see details"};
     @Override
     public String changePage(final String whereTo) {
         if (Arrays.asList(navRestrictions).contains(whereTo)) {
@@ -26,19 +32,23 @@ public class SeeDetailsPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
+    public PageResponse action(final Actions action, final ArrayList<Users> users,
+                               final ArrayList<Movies> movies, final Users currentUser) {
         PageResponse resp = new PageResponse();
         resp.setResponse("err");
         if (action.getFeature().equals("purchase")) {
-            if(action.getMovie() != null && !action.getMovie().equals(movies.get(0).getName()))
+            if (action.getMovie() != null && !action.getMovie().equals(movies.get(0).getName())) {
                 return resp;
+            }
             if (currentUser.getCredentials().getAccountType().equals("standard")) {
-                if (currentUser.getTokensCount() < 2)
+                if (currentUser.getTokensCount() < 2) {
                     return resp;
+                }
                 currentUser.setTokensCount(currentUser.getTokensCount() - 2);
             } else {
-                if (currentUser.getNumFreePremiumMovies() < 1)
+                if (currentUser.getNumFreePremiumMovies() < 1) {
                     return resp;
+                }
                 currentUser.setNumFreePremiumMovies(currentUser.getNumFreePremiumMovies() - 1);
             }
             currentUser.setPurchasedMovies(movies);
@@ -60,6 +70,7 @@ public class SeeDetailsPage implements Page {
             }
             return resp;
         }
+
         if (action.getFeature().equals("like")) {
             ArrayList<Movies> addMovies = new ArrayList<Movies>();
             for (Movies watched : currentUser.getWatchedMovies()) { // check is watched
@@ -74,8 +85,9 @@ public class SeeDetailsPage implements Page {
             }
         }
         if (action.getFeature().equals("rate")) {
-            if (action.getRate() < 1 || action.getRate() > 5)
+            if (action.getRate() < 1 || action.getRate() > 5) {
                 return resp;
+            }
             ArrayList<Movies> addMovies = new ArrayList<Movies>();
             for (Movies rated : currentUser.getWatchedMovies()) { // check is watched
                 if (rated.getName().equals(action.getMovie())) {

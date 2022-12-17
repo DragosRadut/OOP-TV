@@ -1,6 +1,6 @@
-import InputData.Credentials;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Credentials;
+import input.data.Movies;
+import input.data.Users;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -8,17 +8,26 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 
 public final class Output {
-    public ObjectMapper out;
+    private ObjectMapper out;
     public Output() {
         this.out = new ObjectMapper();
     }
-    public ObjectNode generateOutput(final String error, final ArrayList<Movies> movieList, final Users user) {
+
+    /**
+     * method used for generating non-error output
+     * @param error = error message
+     * @param movieList = output movies
+     * @param user = output user
+     * @return
+     */
+    public ObjectNode generateOutput(final String error, final ArrayList<Movies> movieList,
+                                     final Users user) {
         ObjectNode obj = out.createObjectNode();
         obj.put("error", error);
-
+        // add movies
         if (movieList != null) {
-            ArrayNode MoviesNode = out.createArrayNode();
-            for(Movies movie : movieList) {
+            ArrayNode moviesNode = out.createArrayNode();
+            for (Movies movie : movieList) {
                 ObjectNode objMovies = out.createObjectNode();
                 objMovies.putPOJO("name", movie.getName());
                 objMovies.putPOJO("year", movie.getYear());
@@ -29,13 +38,13 @@ public final class Output {
                 objMovies.putPOJO("numLikes", movie.getNumLikes());
                 objMovies.putPOJO("rating", movie.getRating());
                 objMovies.putPOJO("numRatings", movie.getNumRatings());
-                MoviesNode.add(objMovies);
+                moviesNode.add(objMovies);
             }
-            obj.putPOJO("currentMoviesList", MoviesNode);
+            obj.putPOJO("currentMoviesList", moviesNode);
         } else {
             obj.putPOJO("currentMoviesList", new ArrayList<>());
         }
-
+        // add user
         ObjectNode objUser = out.createObjectNode();
         if (user != null) {
             objUser.putPOJO("credentials", copyCredentials(user));
@@ -49,6 +58,12 @@ public final class Output {
         obj.putPOJO("currentUser", objUser);
         return obj;
     }
+
+    /**
+     * method used for generating error output
+     * @param error = error message
+     * @return
+     */
     public ObjectNode generateError(final String error) {
         ObjectNode obj = out.createObjectNode();
         obj.put("error", error);
@@ -56,7 +71,13 @@ public final class Output {
         obj.putPOJO("currentUser", null);
         return obj;
     }
-    public Credentials copyCredentials(Users currentUser) {
+
+    /**
+     * auxiliary method used for copying user credentials
+     * @param currentUser = user to copy from
+     * @return
+     */
+    public Credentials copyCredentials(final Users currentUser) {
         Credentials newCreds = new Credentials();
         newCreds.setBalance(currentUser.getCredentials().getBalance());
         newCreds.setAccountType(currentUser.getCredentials().getAccountType());
@@ -65,10 +86,16 @@ public final class Output {
         newCreds.setPassword(currentUser.getCredentials().getPassword());
         return newCreds;
     }
-    public ArrayNode movieNode(ArrayList<Movies> movieList) {
-        ArrayNode MoviesNode = out.createArrayNode();
+
+    /**
+     * auxiliary method used for creating ArrayNode of movies
+     * @param movieList = movies
+     * @return
+     */
+    public ArrayNode movieNode(final ArrayList<Movies> movieList) {
+        ArrayNode moviesNode = out.createArrayNode();
         if (movieList != null) {
-            for(Movies movie : movieList) {
+            for (Movies movie : movieList) {
                 ObjectNode objMovies = out.createObjectNode();
                 objMovies.putPOJO("name", movie.getName());
                 objMovies.putPOJO("year", movie.getYear());
@@ -79,9 +106,9 @@ public final class Output {
                 objMovies.putPOJO("numLikes", movie.getNumLikes());
                 objMovies.putPOJO("rating", movie.getRating());
                 objMovies.putPOJO("numRatings", movie.getNumRatings());
-                MoviesNode.add(objMovies);
+                moviesNode.add(objMovies);
             }
         }
-        return MoviesNode;
+        return moviesNode;
     }
 }

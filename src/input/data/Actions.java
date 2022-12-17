@@ -1,6 +1,6 @@
-package InputData;
+package input.data;
 
-public class Actions {
+public final class Actions {
     private String type;
     private String page;
     private String movie;
@@ -15,7 +15,7 @@ public class Actions {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(final int rate) {
         this.rate = rate;
     }
 
@@ -23,7 +23,7 @@ public class Actions {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(final String count) {
         this.count = count;
     }
 
@@ -31,7 +31,7 @@ public class Actions {
         return filters;
     }
 
-    public void setFilters(Filters filters) {
+    public void setFilters(final Filters filters) {
         this.filters = filters;
     }
 
@@ -39,7 +39,7 @@ public class Actions {
         return movie;
     }
 
-    public void setMovie(String movie) {
+    public void setMovie(final String movie) {
         this.movie = movie;
     }
 
@@ -47,7 +47,7 @@ public class Actions {
         return startsWith;
     }
 
-    public void setStartsWith(String startsWith) {
+    public void setStartsWith(final String startsWith) {
         this.startsWith = startsWith;
     }
 

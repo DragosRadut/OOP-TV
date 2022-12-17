@@ -1,6 +1,6 @@
-package InputData;
+package input.data;
 
-public class Credentials {
+public final class Credentials {
     private String name;
     private String password;
     private String accountType;

@@ -1,7 +1,7 @@
-import InputData.Actions;
-import InputData.Input;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Actions;
+import input.data.Input;
+import input.data.Movies;
+import input.data.Users;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -13,9 +13,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) {
-        final String filePath1 = args[0];//"/home/waze/Desktop/poo/POOTV1/POO-TV_1/checker/resources/in/basic_10.json";
-        final String filePath2 = args[1];//"output.json";
+    /**
+     * main method
+     * @param args = input file, output file
+     */
+    public static void main(final String[] args) {
+        final String filePath1 = args[0];
+        final String filePath2 = args[1];
         ObjectMapper objectMapper = new ObjectMapper();
         Input inputData;
         try {
@@ -46,29 +50,22 @@ public class Main {
         interpret.setCurrentUser(null);
         interpret.setCurrentMovies(null);
         String[] actionOutputCases = new String[] {"registerUser", "loginUser", "showMovies"};
+
         // iterate through actions and execute
-        int cnt = 0;
-        for(Actions act : actions) {
+        for (Actions act : actions) {
             // send input to interpreter
             String execResponse = interpret.exec(act, allUsers, existingMovies);
-            //System.out.println(execResponse);
             if (execResponse.equals("err")) {
                 outAux = out.generateError("Error");
                 output.addPOJO(outAux);
-            }
-            else if (Arrays.asList(actionOutputCases).contains(execResponse)){
-                outAux = out.generateOutput(null, interpret.getCurrentMovies(), interpret.getCurrentUser());
+            } else if (Arrays.asList(actionOutputCases).contains(execResponse)) {
+                outAux = out.generateOutput(null, interpret.getCurrentMovies(),
+                        interpret.getCurrentUser());
                 output.addPOJO(outAux);
             }
-//            if(++cnt == 10) {
-//                System.out.println(execResponse);
-//                System.out.println(interpret.getCurrentPage());
-//                break;
-//            }
         }
 
-
-        //output.addPOJO(inputData)
+        // output
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         try {
             objectWriter.writeValue(new File(filePath2), output);

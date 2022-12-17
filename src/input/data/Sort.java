@@ -1,6 +1,6 @@
-package InputData;
+package input.data;
 
-public class Sort {
+public final class Sort {
     private String rating;
     private String duration;
 

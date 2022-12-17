@@ -1,17 +1,23 @@
-package PageData;
+package page.data;
 
-import InputData.Actions;
-import InputData.Movies;
-import InputData.Users;
+import input.data.Actions;
+import input.data.Movies;
+import input.data.Users;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class NonAuthPage implements Page {
+public final class NonAuthPage implements Page {
     private static NonAuthPage instance = null;
+
+    /**
+     * Singleton
+     * @return instance
+     */
     public static NonAuthPage getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new NonAuthPage();
+        }
         return instance;
     }
     private static String[] navRestrictions = new String[] {"login", "register"};
@@ -25,7 +31,8 @@ public class NonAuthPage implements Page {
     }
 
     @Override
-    public PageResponse action(Actions action, ArrayList<Users> users, ArrayList<Movies> movies, Users currentUser) {
+    public PageResponse action(final Actions action, final ArrayList<Users> users,
+                               final ArrayList<Movies> movies, final Users currentUser) {
         PageResponse resp = new PageResponse();
         resp.setResponse("err");
         return resp;
