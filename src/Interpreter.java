@@ -56,7 +56,8 @@ public class Interpreter {
                         setCurrentMovies(availableMovies(moviesList, currentUser));
                         return "showMovies";
                     case "see details":
-                        setCurrentMovies(availableMovies(moviesList, currentUser));
+                        if(getCurrentMovies().size() < 1)
+                            setCurrentMovies(availableMovies(moviesList, currentUser));
                         int checkMovie = checkDetails(action, currentMovies);
                         ArrayList<Movies> seeDetails = new ArrayList<Movies>();
                         if (checkMovie == -1) {
@@ -83,8 +84,9 @@ public class Interpreter {
             if (currentPage.equals("movies"))
                 setCurrentMovies(availableMovies(moviesList, currentUser));
             if(currentPage.equals("see details")) {
-                if(currentMovies.size() < 1)
+                if(currentMovies.size() < 1) {
                     return "err";
+                }
                 if (action.getMovie() == null) {
                     action.setMovie(currentMovies.get(0).getName());
                 }
