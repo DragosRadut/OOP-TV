@@ -1,32 +1,32 @@
-# POO TV
+# OOP TV
 
-## Descriere
-Proiectul presupune implementarea unui backend simplu al unei platforme specifice vizualizarii de filme sub forma unei ierarhii de fisiere.
+## Description
+The entire project stands under the copyright of University Politehnica of Bucharest, Object Oriented Programming 2022, being a graded assignment.
+This is a backed implementation of a simple movie streaming platform. Implementation targets the search and acces method, designing the platform as a file tree.
 
-## Structura
-Structura proiectului este una similara cu un command design pattern.
-### Pachete specifice
-Clasele sunt impartite in doua pachete:
-* input.data -> contine clasele specifice datelor primite ca input
-* page.data -> contine clasele prin care se suprascriu metodele specifice fiecarei pagini
-### Pagini
-Fiecare pagina implementeaza (folosind Singleton design patter) interfata Page care contine 2 metode:
-* changePange -> primeste ca parametru pagina pe care user-ul doreste sa inainteze si intoarce un String ("err" = eroare, "page name" = succes);
-* action -> handler-ul pentru actiunile de tip "on page"; va intoarce un obiect PageResponse care contine datele ce vor fi modificate;
+## Structure
+The project is structure similar to a command design pattern.
+### Specific packets
+Classes are divided into 2 packets:
+* input.data -> input data specific
+* page.data -> overrides for page specific methods
+### Pages
+Each page implements (using Singleton design pattern) the interface Page containing 2 methods:
+* changePange -> gets as param the page on which user wants to navigate and returns a string ("err" = eroare, "page name" = succes);
+* action -> handler for "on page" actions; returns a PageResponse object containing data to be modified;
 ### Interpreter
-Un obiect de tip Interpreter are rolul de intermediar intre input, actiunea propriu-zisa si output-ul generat.
-Acest obiect va determina tipul paginii care trebuie folosite conform paginii curente pe care se afla utilizatorul.
-Odata determinat tipul paginii, va apela una dintre cele doua metode specifice: changePage/action.
+An interpreter object is used as an intermediar between input, the antion itself and resulting output.
+This object will determine the page object that the user is currently using.
+After that, one of two specific methods will be called: changePage/action.
 #### changePage
-Fiecare pagina determina daca are posibilitatea de a face trecerea la urmatoarea pagina.
-In caz afirmativ, se pot efectua anumite actiuni la "incarcarea" urmatoarei pagini.
-Altfel, se va returna "err" si se va interpreta eroara.
+From each page the user can navigate to a predefined set of pages.
+Some actions may be executed when "loading" the new page.
 ### action
-Pe langa posibile erori ce vor genera output, se pot intoarce mesaje specifice pentru generare output.
-Astfel, fiecare obiect de tip Page va intoarce un string pentru a se realiza modificarile necesare:
-* loginUser -> se vor realiza actiunile specifice logarii
-* registerUser -> se vor realiza actiunile specifice inregistrarii unui nou user
-* errLogin -> user-ul va fi intors pe pagina initiala 
-* setMovies -> se modifica lista curenta de filme si se genereaza output
-* updateUser -> se modifica datele utilizatorului curent
-* updateUserMovies -> se modifica listele de filme ale utilizatorului
+Responses from handler can be errors that will be interpreted or specific mesages for different success output.
+Each Page object will return a string indicating specific modifications:
+* loginUser -> login specific actions will be made
+* registerUser -> register specific actions will be made
+* errLogin -> user will be redirected to initial page 
+* setMovies -> current list of movies will be modified
+* updateUser -> current user data will be modified
+* updateUserMovies -> user's movie list will be modified
